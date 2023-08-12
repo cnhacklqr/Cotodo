@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Cotodo</title>
+    <link rel="stylesheet" href="node_modules/mdui/dist/css/mdui.min.css" />
+</head>
+
+<body class="mdui-theme-primary-indigo mdui-theme-accent-pink mdui-color-blue-grey-900">
+
+    <div class="mdui-appbar mdui-color-blue-grey-900">
+        <div class="mdui-toolbar mdui-color-indigo mdui-color-blue-grey-900">
+            <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">menu</i></a>
+            <a href="javascript:;" class="mdui-typo-title" style="font-size: 24px;">Cotodo</a>
+            <div class="mdui-toolbar-spacer"></div>
+        </div>
+        <div class="mdui-tab mdui-color-indigo mdui-color-blue-grey-900 mdui-tab-centered " mdui-tab>
+            <a href="#tab1" class="mdui-ripple mdui-ripple-white"> 短期 - 重要 </a>
+            <a href="#tab2" class="mdui-ripple mdui-ripple-white"> 短期 - 不重要 </a>
+            <a href="#tab3" class="mdui-ripple mdui-ripple-white"> 长期 - 重要 </a>
+            <a href="#tab4" class="mdui-ripple mdui-ripple-white"> 长期 - 不重要</a>
+        </div>
+    </div>
+
+    <div class="mdui-container">
+
+        <div class="mdui-dialog" id="dialog">
+            <div class="mdui-dialog-title">请输入项目标题</div>
+            <div class="mdui-dialog-content">
+                <div class="mdui-textfield mdui-textfield-floating-label">
+                    <label class="mdui-textfield-label">Title</label>
+                    <input class="mdui-textfield-input" type="text" id="item_title" />
+                </div>
+            </div>
+            <div class="mdui-dialog-actions">
+                <button class="mdui-btn mdui-ripple" mdui-dialog-cancel>关闭</button>
+                <button class="mdui-btn mdui-ripple" mdui-dialog-confirm>确定</button>
+            </div>
+        </div>
+
+        <button class="mdui-fab mdui-fab-fixed mdui-color-theme-700" id="open"><i
+                class="mdui-icon material-icons">add</i></button>
+
+    </div>
+
+    <div class="mdui-container-fluid">
+        <div id="tab1">
+        </div>
+        <div id="tab2">
+        </div>
+        <div id="tab3">
+        </div>
+        <div id="tab4">
+        </div>
+    </div>
+    <script src="node_modules/mdui/dist/js/mdui.min.js"></script>
+    <script src="index.js"></script>
+    <script>
+        var $ = mdui.$;
+        var inst = new mdui.Tab('#tab');
+        var inst = new mdui.Dialog('#dialog');
+        function new_todo_item(title) {
+            // method
+            $('#new_item').on('click', function () {
+                inst.open();
+            });
+            var todo_item_code = ` 
+                <br>
+                <div class="mdui-container mdui-color-theme mdui-hoverable mdui-ripple">
+                    <div class="mdui-row">
+                        <p class="mdui-col-xs-10" style="font-size: 18px;">${title}</p>
+                        <div class="mdui-col" style="position: absolute;top: 10px;right: 10px;">
+                            <label class="mdui-switch">
+                                <input type="checkbox" checked/>
+                                <i class="mdui-switch-icon"></i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            `
+            var tab_html=document.getElementById("tab1").innerHTML;
+            document.getElementById("tab1").innerHTML=tab_html+todo_item_code;
+        }
+
+        $('#open').on('click', function () {
+            inst.open();
+        });
+        $('#dialog').on('confirm.mdui.dialog', function () {
+            new_todo_item(document.getElementById('item_title').value);
+        });
+    </script>
+</body>
+
+</html>
