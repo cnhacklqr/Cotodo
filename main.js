@@ -9,12 +9,13 @@ function createWindow() {
     window = new electron.BrowserWindow({
         width: 600,
         height: 400,
+        icon : path.join(__dirname, 'img/icon.png'),
         webPreferences: {
             nodeIntegration: true
         }
     });
     const urls = url.format({
-        pathname: path.join(__dirname, 'index.html'),
+        pathname: path.join(__dirname, 'src/html/index.html'),
         protocol: 'file:'
     })
 
