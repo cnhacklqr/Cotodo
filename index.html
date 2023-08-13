@@ -24,19 +24,33 @@
         </div>
     </div>
 
-    <div class="mdui-container">
+    <div class="mdui-container mdui-color-blue-grey-900">
 
-        <div class="mdui-dialog" id="dialog">
-            <div class="mdui-dialog-title">请输入项目标题</div>
-            <div class="mdui-dialog-content">
+        <div class="mdui-dialog mdui-color-blue-grey-900" id="dialog">
+            <div class="mdui-dialog-title">Please Input Todo Item Title</div>
+            <div class="mdui-dialog-content mdui-color-blue-grey-900">
                 <div class="mdui-textfield mdui-textfield-floating-label">
-                    <label class="mdui-textfield-label">Title</label>
+                    <label class="mdui-textfield-label" style="color: #FFFFFF;">Title</label>
                     <input class="mdui-textfield-input" type="text" id="item_title" />
+                </div>
+                <div class="mdui-row">
+                    <div class="mdui-container mdui-col-xs-6 mdui-color-blue-grey-900" style="height: 75px;" id="is_long">
+                        <select class="mdui-select mdui-color-blue-grey-900" mdui-select>
+                          <option value="1" class="mdui-color-blue-grey-900">长期</option>
+                          <option value="2" class="mdui-color-blue-grey-900">短期</option>
+                        </select>
+                    </div>
+                    <div class="mdui-container mdui-col-xs-6 mdui-color-blue-grey-900" style="height: 75px;" id="is_primary">
+                        <select class="mdui-select mdui-color-blue-grey-900" mdui-select>
+                          <option value="1" class="mdui-color-blue-grey-900">重要</option>
+                          <option value="2" class="mdui-color-blue-grey-900">不重要</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="mdui-dialog-actions">
-                <button class="mdui-btn mdui-ripple" mdui-dialog-cancel>关闭</button>
-                <button class="mdui-btn mdui-ripple" mdui-dialog-confirm>确定</button>
+                <button class="mdui-btn mdui-ripple" style="color: #FFFFFF;" mdui-dialog-cancel>关闭</button>
+                <button class="mdui-btn mdui-ripple" style="color: #FFFFFF;" mdui-dialog-confirm>确定</button>
             </div>
         </div>
 
@@ -56,12 +70,11 @@
         </div>
     </div>
     <script src="node_modules/mdui/dist/js/mdui.min.js"></script>
-    <script src="index.js"></script>
     <script>
         var $ = mdui.$;
         var inst = new mdui.Tab('#tab');
         var inst = new mdui.Dialog('#dialog');
-        function new_todo_item(title) {
+        function new_todo_item(title,Tab) {
             // method
             $('#new_item').on('click', function () {
                 inst.open();
@@ -72,23 +85,44 @@
                     <div class="mdui-row">
                         <p class="mdui-col-xs-10" style="font-size: 18px;">${title}</p>
                         <div class="mdui-col" style="position: absolute;top: 10px;right: 10px;">
-                            <label class="mdui-switch">
-                                <input type="checkbox" checked/>
-                                <i class="mdui-switch-icon"></i>
+                            <label class="mdui-checkbox">
+                            <input type="checkbox"/>
+                            <i class="mdui-checkbox-icon"></i>
+                                完成
                             </label>
                         </div>
                     </div>
                 </div>
             `
-            var tab_html=document.getElementById("tab1").innerHTML;
-            document.getElementById("tab1").innerHTML=tab_html+todo_item_code;
+            var tab_html = document.getElementById("tab1").innerHTML;
+            document.getElementById("tab1").innerHTML = tab_html + todo_item_code;
         }
 
         $('#open').on('click', function () {
             inst.open();
         });
         $('#dialog').on('confirm.mdui.dialog', function () {
-            new_todo_item(document.getElementById('item_title').value);
+            item_title_var=document.getElementById('item_title').value;
+            if(item_title_var==""){
+                mdui.snackbar({
+                    message: '请输入标题'
+                });
+                return;
+            }
+            var value_primary=document.getElementById("is_primary").options[document.getElementById("is_primary").selectedIndex].value;
+            var value_long=document.getElementById("is_long").options[document.getElementById("is_long").selectedIndex].value;
+            if (value_long==2 && value_long==1) {
+                new_todo_item(item_title_var,"tab1");
+            }
+            if (value_long==2 && value_long==2) {
+                new_todo_item(item_title_var,"tab2");
+            }
+            if (value_long==1 && value_long==1) {
+                new_todo_item(item_title_var,"tab3");
+            }
+            if (value_long==1 && value_long==2) {
+                new_todo_item(item_title_var,"tab4");
+            }
         });
     </script>
 </body>
